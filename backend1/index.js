@@ -20,7 +20,7 @@ async function connectRabbitMQ() {
     if (msg !== null) {
       const task = JSON.parse(msg.content.toString());
       logs.push({
-        event: 'TASK_RECEIVED',
+        event: 'Задача принята',
         taskId: task.id,
         source: 'frontend',
         destination: 'server1',
@@ -31,10 +31,10 @@ async function connectRabbitMQ() {
         conn.createChannel().then(ch => {
           ch.sendToQueue('tasks', Buffer.from(JSON.stringify(task)));
           logs.push({
-            event: 'TASK_FORWARDED',
+            event: 'Задача обрабатывается',
             taskId: task.id,
             source: 'server1',
-            destination: 'server2',
+            destination: '',
             timestamp: new Date().toISOString()
           });
           ch.close();
@@ -53,7 +53,7 @@ app.post('/task', (req, res) => {
   const task = { id: Date.now(), text };
   
   logs.push({
-    event: 'TASK_CREATED',
+    event: 'Задача создана и отправлена',
     taskId: task.id,
     source: 'frontend',
     destination: 'server1',

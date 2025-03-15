@@ -21,7 +21,7 @@ async function connectRabbitMQ() {
       const task = JSON.parse(msg.content.toString());
       
       logs.push({
-        event: 'TASK_RECEIVED',
+        event: 'Задача отправлена',
         taskId: task.id,
         source: 'server1',
         destination: 'server2',
@@ -29,7 +29,7 @@ async function connectRabbitMQ() {
       });
 
       logs.push({
-        event: 'TASK_PROCESSED',
+        event: 'Задача принята',
         taskId: task.id,
         source: 'server2',
         destination: 'frontend',
